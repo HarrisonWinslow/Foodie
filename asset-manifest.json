@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/HarrisonWinslow/Foodie.git/static/css/main.f855e6bc.css",
-    "main.js": "/HarrisonWinslow/Foodie.git/static/js/main.a367410a.js",
-    "static/js/453.a9a50512.chunk.js": "/HarrisonWinslow/Foodie.git/static/js/453.a9a50512.chunk.js",
-    "static/media/logo.svg": "/HarrisonWinslow/Foodie.git/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/HarrisonWinslow/Foodie.git/index.html",
-    "main.f855e6bc.css.map": "/HarrisonWinslow/Foodie.git/static/css/main.f855e6bc.css.map",
-    "main.a367410a.js.map": "/HarrisonWinslow/Foodie.git/static/js/main.a367410a.js.map",
-    "453.a9a50512.chunk.js.map": "/HarrisonWinslow/Foodie.git/static/js/453.a9a50512.chunk.js.map"
+    "main.css": "/HarrisonWinslow/Foodie/static/css/main.f855e6bc.css",
+    "main.js": "/HarrisonWinslow/Foodie/static/js/main.9082d61c.js",
+    "static/js/453.a9a50512.chunk.js": "/HarrisonWinslow/Foodie/static/js/453.a9a50512.chunk.js",
+    "static/media/logo.svg": "/HarrisonWinslow/Foodie/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/HarrisonWinslow/Foodie/index.html",
+    "main.f855e6bc.css.map": "/HarrisonWinslow/Foodie/static/css/main.f855e6bc.css.map",
+    "main.9082d61c.js.map": "/HarrisonWinslow/Foodie/static/js/main.9082d61c.js.map",
+    "453.a9a50512.chunk.js.map": "/HarrisonWinslow/Foodie/static/js/453.a9a50512.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.a367410a.js"
+    "static/js/main.9082d61c.js"
   ]
 }

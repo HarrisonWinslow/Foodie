@@ -16,7 +16,7 @@ function Home() {
   }, [recipes]);
 
   return (
-    <div className="App">
+    <div className="App-header">
       <header className="App-header">
         Home
       </header>
@@ -25,7 +25,7 @@ function Home() {
         <ul>
           {recipes.map((recipe, index) => (
             <li key={recipe.id}>
-              <Link to={`/recipes/${recipe.name}`}>{recipe.name}</Link>
+              <Link to={`/Foodie/Recipes/${recipe.name}`}>{recipe.name}</Link>
             </li>
           ))}
         </ul>

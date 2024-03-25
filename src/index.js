@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import './Styles/Pages.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -21,11 +22,12 @@ root.render(
       <Header />
       <Routes>
         <Route path="*" element={<Home />} /> {/* Home component as the root route */}
-        <Route path="/create" element={<Create />} />
-        <Route path="/allRecipes" element={<AllRecipes />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/gross" element={<Gross />} />
-        <Route path="/recipes/:id" element={<RecipePage />} /> {/*Define route for RecipePage*/}
+        <Route path="/Foodie/Home" element={<Home />} />
+        <Route path="/Foodie/Create" element={<Create />} />
+        <Route path="/Foodie/AllRecipes" element={<AllRecipes />} />
+        <Route path="/Foodie/Favorites" element={<Favorites />} />
+        <Route path="/Foodie/Gross" element={<Gross />} />
+        <Route path="/Foodie/Recipes/:id" element={<RecipePage />} /> {/*Define route for RecipePage*/}
       </Routes>
     </Router>
   </React.StrictMode>

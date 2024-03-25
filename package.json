@@ -1,7 +1,7 @@
 {
   "name": "foodie-client",
   "version": "0.1.0",
-  "homepage": "https://harrisonwinslow.github.io/Foodie/",
+  "homepage": "https://harrisonwinslow.github.io/Foodie",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

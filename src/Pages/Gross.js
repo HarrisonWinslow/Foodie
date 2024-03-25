@@ -1,4 +1,3 @@
-import '../Styles/Pages.css';
 
 
 function Gross() {

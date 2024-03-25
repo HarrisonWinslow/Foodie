@@ -1,4 +1,4 @@
-import '../Styles/Pages.css';
+
 import React, { useState, useEffect } from 'react';
 
 

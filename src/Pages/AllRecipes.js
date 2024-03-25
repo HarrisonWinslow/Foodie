@@ -1,4 +1,4 @@
-import '../Styles/Pages.css';
+
 
 
 function AllRecipes() {

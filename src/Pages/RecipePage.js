@@ -7,7 +7,7 @@ function RecipePage() {
 
   return (
     <div>
-      <h2>{id}:</h2>
+      <h2 className="App-header">{id}:</h2>
     </div>
   );
 }

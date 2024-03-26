@@ -54,3 +54,44 @@
 .navbar-nav .nav-item .nav-link.active {
   color: #6e6c6c !important;
 }
+
+.nav-link:hover {
+  color: #6e6c6c !important;
+}
+
+.btn-custom {
+  color: #fff !important; /* Text color */
+  background-color: #1b4f5c !important; /* Background color */
+  border-color: #1b4f5c !important; /* Border color */
+}
+
+.btn-custom:hover {
+  color: #fff !important; /* Text color on hover */
+  background-color: #11323a !important; /* Background color on hover */
+  border-color: #11323a !important; /* Border color on hover */
+}
+
+.btn-custom:focus, .btn-custom.focus {
+  color: #fff !important; /* Text color on focus */
+  background-color: #153c46 !important; /* Background color on focus */
+  border-color: #11323a !important; /* Border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(41, 75, 81, 0.5) !important; /* Box shadow on focus */
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff !important; /* Text color for disabled state */
+  background-color: #153c4688 !important; /* Background color for disabled state */
+  border-color: #153c4688 !important; /* Border color for disabled state */
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff !important; /* Text color when active */
+  background-color: #11323a !important; /* Background color when active */
+  border-color: #11323a !important; /* Border color when active */
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(58, 105, 113, 0.689) !important; /* Box shadow when active/focused */
+}

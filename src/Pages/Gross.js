@@ -2,7 +2,7 @@
 
 function Gross() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
         Gross
       </header>

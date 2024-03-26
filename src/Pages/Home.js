@@ -16,19 +16,12 @@ function Home() {
   }, [recipes]);
 
   return (
-    <div className="App-header">
+    <div>
       <header className="App-header">
         Home
       </header>
-      <body className="App-header">
-        <h1>Recipes</h1>
-        <ul>
-          {recipes.map((recipe, index) => (
-            <li key={recipe.id}>
-              <Link to={`/Foodie/Recipes/${recipe.name}`}>{recipe.name}</Link>
-            </li>
-          ))}
-        </ul>
+      <body>
+        Welcome to Foodie :)
       </body>
     </div>
   );

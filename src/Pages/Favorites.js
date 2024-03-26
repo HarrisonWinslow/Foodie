@@ -3,7 +3,7 @@
 
 function Favorites() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
         Favorites
       </header>

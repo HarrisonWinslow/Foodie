@@ -20,9 +20,9 @@ function Home() {
       <header className="App-header">
         Home
       </header>
-      <body>
+      <div>
         Welcome to Foodie :)
-      </body>
+      </div>
     </div>
   );
 };

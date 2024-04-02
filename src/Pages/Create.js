@@ -1,23 +1,32 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
+const currentlyTesting = false; // change this when you want to deploy
 
 
 function Create() {
 
   const [recipeName, setRecipeName] = useState("");
   const [recipeDescription, setRecipeDescription] = useState("");
-  const [recipeCookTime, setRecipeCookTime] = useState("");
+  const [recipeCookTime, setRecipeCookTime] = useState(0);
+  // const [numParts, setNumParts] = useState(1);
   const [recipeIngredients, setRecipeIngredients] = useState("");
+  const [recipeSteps, setRecipeSteps] = useState("")
   const [recipeTags, setRecipeTags] = useState("");
   const [recipeComments, setRecipeComments] = useState("");
-  const [recipeRating, setRecipeRating] = useState("");
+  const [recipeRating, setRecipeRating] = useState("Need To Try");
   
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const ingredients = recipeIngredients.split(", ");
-    const tags = recipeTags.split(", ");
+    const partialIngredientsList = recipeIngredients.split(", ");
+    const ingredientsList = [];
+    for(let i = 0; i < partialIngredientsList.length; i++)
+    {
+      ingredientsList.push(partialIngredientsList[i].split(" - "));
+    }
+    const stepsList = recipeSteps.split(" ||| ");
+    const tagsList = recipeTags.split(", ");
     
 
     try {
@@ -25,8 +34,9 @@ function Create() {
         name: recipeName,
         description: recipeDescription,
         cookTime: recipeCookTime,
-        ingredients: ingredients,
-        tags: tags,
+        ingredients: ingredientsList,
+        steps: stepsList,
+        tags: tagsList,
         comments: recipeComments,
         rating: recipeRating
       });
@@ -50,8 +60,16 @@ function Create() {
     setRecipeCookTime(e.target.value);
   }
 
+  // const handleNumPartsChange = async (e) => {
+  //   setNumParts(e.target.value);
+  // }
+
   const handleIngredientsChange = async (e) => {
     setRecipeIngredients(e.target.value);
+  }
+
+  const handleStepsChange = async (e) => {
+    setRecipeSteps(e.target.value);
   }
 
   const handleTagsChange = async (e) => {
@@ -66,62 +84,173 @@ function Create() {
     setRecipeRating(e.target.value);
   }
 
-  useEffect(() => {
-    console.log(recipeName);
-  }, [recipeName]);
+  const createDummyItems = async () => {
+    for(let i = 0; i < 100; i++)
+    {
+      const randomRatingNum = parseInt((Math.random()*5));
+      let randomRating = "Need To Try";
+      switch(randomRatingNum){
+        case 0:
+          randomRating = "Gross"; break;
+        case 1:
+          randomRating = "Meh"; break;
+        case 2:
+          randomRating = "Need To Try"; break;
+        case 3:
+          randomRating = "Good"; break;
+        case 4:
+          randomRating = "Favorite"; break;
+        default:
+          randomRating = "Random";
+      }
+      const rName = "dummy #" + i;
+      const rDescription = "description #" + i;
+      const rCookTime = parseInt((Math.random() * 100));
+      const rIngredients = "ingredient " + i + ".1 - 1 cup, ingredient " + i + ".2 - 2 tsps";
+      const rSteps = "step " + i + ".1 ||| step " + i + ".2 ||| step " + i + ".3";
+      const rTags = "tag " + i + ".1, tag " + i + ".2";
+      const rComments = "comments for recipe #" + i;
+      const rRating = randomRating;
+
+      const partialIngredientsList = rIngredients.split(", ");
+      const ingredientsList = [];
+      for(let i = 0; i < partialIngredientsList.length; i++)
+      {
+        ingredientsList.push(partialIngredientsList[i].split(" - "));
+      }
+      const stepsList = rSteps.split(" ||| ");
+      const tagsList = rTags.split(", ");
+
+      try {
+        const response = await axios.post(stageURL + "/insertRecipe", {
+          name: rName,
+          description: rDescription,
+          cookTime: rCookTime,
+          ingredients: ingredientsList,
+          steps: stepsList,
+          tags: tagsList,
+          comments: rComments,
+          rating: rRating
+        });
+        console.log(response.data); // Log response data
+        // Add logic to handle successful response (e.g., update UI)
+      } catch (error) {
+        console.error('There was a problem with your Axios request:', error);
+        // Add logic to handle errors (e.g., display error message)
+      }
+    }
+  }
+
+  const deleteDummyItems = async () => {
+    for(let i = 0; i < 100; i++)
+    {
+      const rName = "dummy #" + i;
+      try {
+        const response = await axios.delete(stageURL + "/deleteRecipe", {
+          data: { name: rName }
+        });
+        console.log(response.data); // Log response data
+        // Add logic to handle successful response (e.g., update UI)
+      } catch (error) {
+        console.error('There was a problem with your Axios request:', error);
+        // Add logic to handle errors (e.g., display error message)
+      }
+    }
+  }
   
   return (
-    <div>
+    <div style={{width:"100vw", backgroundColor: "#588c9981"}}>
       <header className="App-header">
         Create
         <br/>
       </header>
       <div className="container" style={{margin: "10px"}}>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
+        {currentlyTesting && 
+          <>
+            <div className="dev-button"><button type="submit" onClick={createDummyItems} >Create Dummy Items</button></div>
+            <div className="dev-button"><button type="submit" onClick={deleteDummyItems} >Delete Dummy Items</button></div>
+          </>
+        }
+        <form style={{ width: "calc(100%)", margin:"10px" }}>
+          <div className="row">
+            <div className="col">
+              <div className="form-group" style={{ width: "calc(100%)" }}>
+                <label> Name: </label>
+                <input type="text" name="name" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }}  value={recipeName} onChange={handleNameChange} />
+                <br />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group" style={{ width: "calc(100%)" }}>
+                <label>Cook Time:</label>
+                <input type="number" name="cookTime" className="form-control" style={{ width: "calc(100%-10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeCookTime} onChange={handleCookTimeChange} />
+                <small className="form-text text-muted">(minutes)</small>
+                <br />
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group"  style={{ width: "calc(100%)" }}>
+                <label>Tags:</label>
+                <input type="text" name="tags" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeTags} onChange={handleTagsChange} />
+                <small className="form-text text-muted">(of the form: tag1, tag2, tag3,..., last tag)</small>
+                <br />
+              </div>
+            </div>
+            <div className="col">
+              <div className="form-group"  style={{ width: "calc(100%)" }}>
+                <label> Rating: </label>
+                <div  style={{ width: "calc(100%)", margin: '10px' }}>
+                  <input type="radio" id="rating1" name="rating" style={{margin:"5px"}} value="Gross" checked={recipeRating === 'Gross'} onChange={handleRatingChange} />
+                  <label htmlFor="rating1" style={{marginRight:"5px"}}>Gross</label>
+                  <input type="radio" id="rating2" name="rating" style={{margin:"5px"}} value="Meh" checked={recipeRating === 'Meh'} onChange={handleRatingChange} />
+                  <label htmlFor="rating2" style={{marginRight:"5px"}}>Meh</label>
+                  <input type="radio" id="rating3" name="rating" style={{margin:"5px"}} value="Need To Try" checked={recipeRating === 'Need To Try'} onChange={handleRatingChange} />
+                  <label htmlFor="rating3" style={{marginRight:"5px"}}>Need To Try</label>
+                  <input type="radio" id="rating4" name="rating" style={{margin:"5px"}} value="Good" checked={recipeRating === 'Good'} onChange={handleRatingChange} />
+                  <label htmlFor="rating4" style={{marginRight:"5px"}}>Good</label>
+                  <input type="radio" id="rating5" name="rating" style={{margin:"5px"}} value="Favorite" checked={recipeRating === 'Favorite'} onChange={handleRatingChange} />
+                  <label htmlFor="rating5" style={{marginRight:"5px"}}>Favorite</label>
+                </div>
+                <br />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="form-group" style={{ width: "calc(100%)" }}>
+                <label> Description: </label>
+                <textarea type="text" name="description" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeDescription} onChange={handleDescriptionChange} />
+                <br />
+              </div>
+            </div>
+          </div>
+          {/* <div className="form-group">
             <label>
-              Name:
-              <input type="text" name="name" style={{ margin: "10px" }} value={recipeName} onChange={handleNameChange} />
+              How many parts does this recipe have?
+              <input type="number" name="numParts" style={{ margin: "10px" }} value={numParts} onChange={handleNumPartsChange} />
             </label>
             <br />
-          </div>
-          <div className="form-group">
-            <label>
-              Description:
-              <input type="text" name="description" style={{ margin: "10px" }} value={recipeDescription} onChange={handleDescriptionChange} />
-            </label>
-            <br />
-          </div>
-          <div className="form-group">
-            <label>Cook Time:</label>
-            <input type="number" name="cookTime" style={{ margin: "10px" }} value={recipeCookTime} onChange={handleCookTimeChange} />
-            <small className="form-text text-muted">(minutes)</small>
-            <br />
-          </div>
-          <div className="form-group">
+          </div> */}
+          <div className="form-group"  style={{ width: "calc(100%)" }}>
             <label> Ingredients:</label>
-            <input type="text" name="ingredients" style={{ margin: "10px" }} value={recipeIngredients} onChange={handleIngredientsChange} />
-            <small className="form-text text-muted">(of the form: ingredient1 - amount, ingredient2 - amount, ..., lastIngredient - amount)</small>
+            <textarea type="text" name="ingredients" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeIngredients} onChange={handleIngredientsChange} />
+            <small className="form-text text-muted">(of the form: ingredient1 - amount, ingredient2 - amount, ..., last ingredient - amount)</small>
             <br />
           </div>
-          <div className="form-group">
-            <label>Tags:</label>
-            <input type="text" name="tags" style={{ margin: "10px" }} value={recipeTags} onChange={handleTagsChange} />
-            <small className="form-text text-muted">(of the form: tag1, tag2, tag3,..., lastTag)</small>
+          <div className="form-group"  style={{ width: "calc(100%)" }}>
+            <label> Steps:</label>
+            <textarea type="text" name="steps" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeSteps} onChange={handleStepsChange} />
+            <small className="form-text text-muted">(of the form: step1 ||| step2 ||| ... ||| last step)</small>
             <br />
           </div>
-          <div className="form-group">
+          <div className="form-group"  style={{ width: "calc(100%)" }}>
             <label>Comments:</label>
-            <input type="text" name="comments" style={{ margin: "10px" }} value={recipeComments} onChange={handleCommentsChange} />
+            <textarea type="text" name="comments" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeComments} onChange={handleCommentsChange} />
             <br />
           </div>
-          <div className="form-group">
-            <label> Rating: </label>
-            <input type="text" name="rating" style={{ margin: "10px" }} value={recipeRating} onChange={handleRatingChange} />
-            <small className="form-text text-muted">(Gross, Meh, Need to Try, Good, or Favorite)</small>
-            <br />
-          </div>
-          <button type="submit" className="btn btn-custom">Submit</button>
+          <button type="submit" className="btn btn-custom" style={{ marginBottom: "100px" }} onClick={handleSubmit} >Submit</button>
         </form>
       </div>
     </div>

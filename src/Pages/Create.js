@@ -19,18 +19,20 @@ function Create() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const partialIngredientsList = recipeIngredients.split(", ");
+    const partialIngredientsList = recipeIngredients.split("\n");
     const ingredientsList = [];
     for(let i = 0; i < partialIngredientsList.length; i++)
     {
       ingredientsList.push(partialIngredientsList[i].split(" - "));
     }
-    const stepsList = recipeSteps.split(" ||| ");
+    const stepsList = recipeSteps.split("\n");
     const tagsList = recipeTags.split(", ");
     
 
-    try {
-      const response = await axios.post(stageURL + "/insertRecipe", {
+    try 
+    {
+      const response = await axios.post(stageURL + "/insertRecipe", 
+      {
         name: recipeName,
         description: recipeDescription,
         cookTime: recipeCookTime,
@@ -40,13 +42,12 @@ function Create() {
         comments: recipeComments,
         rating: recipeRating
       });
-      console.log(response.data); // Log response data
-      // Add logic to handle successful response (e.g., update UI)
-    } catch (error) {
-      console.error('There was a problem with your Axios request:', error);
-      // Add logic to handle errors (e.g., display error message)
-    }
-  };
+      console.log(response.data);
+      } catch (error) 
+      {
+        console.error('There was a problem with your Axios request:', error);
+      }
+    };
 
   const handleNameChange = async (e) => {
     setRecipeName(e.target.value);
@@ -121,8 +122,10 @@ function Create() {
       const stepsList = rSteps.split(" ||| ");
       const tagsList = rTags.split(", ");
 
-      try {
-        const response = await axios.post(stageURL + "/insertRecipe", {
+      try 
+      {
+        const response = await axios.post(stageURL + "/insertRecipe", 
+        {
           name: rName,
           description: rDescription,
           cookTime: rCookTime,
@@ -132,11 +135,10 @@ function Create() {
           comments: rComments,
           rating: rRating
         });
-        console.log(response.data); // Log response data
-        // Add logic to handle successful response (e.g., update UI)
-      } catch (error) {
+        console.log(response.data);
+      } catch (error) 
+      {
         console.error('There was a problem with your Axios request:', error);
-        // Add logic to handle errors (e.g., display error message)
       }
     }
   }
@@ -159,12 +161,12 @@ function Create() {
   }
   
   return (
-    <div style={{width:"100vw", backgroundColor: "#588c9981"}}>
+    <div style={{ backgroundColor: "#588c9981"}}>
       <header className="App-header">
         Create
         <br/>
       </header>
-      <div className="container" style={{margin: "10px"}}>
+      <div style={{margin: "10px", paddingRight: "20px"}}>
         {currentlyTesting && 
           <>
             <div className="dev-button"><button type="submit" onClick={createDummyItems} >Create Dummy Items</button></div>

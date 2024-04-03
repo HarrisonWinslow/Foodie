@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import axios from 'axios';
+const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
+
 
 
 function AllRecipes() {
@@ -7,28 +10,58 @@ function AllRecipes() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    setRecipes([{id:1, name:"First!"}, {id:2, name:"Second!"}, {id:3, name:"Third!"}]);
+    fetchRecipes();
   }, []);
-  
-  useEffect(() => {
-    console.log(recipes);
-  }, [recipes]);
+
+  const fetchRecipes = async () => {
+    let lastEvaluatedKey = null;
+    let items = [];
+    const pageSize = 30;
+    try 
+    {
+      let hasMore = true;
+      do{
+        const response = await axios.get(stageURL + "/getAllRecipes", {
+          params: { 'lastEvaluatedKey': lastEvaluatedKey, 'pageSize': pageSize }
+        });
+        console.log(response.data);
+        let newItems = response.data.items;
+        if(response.data.lastEvaluatedKey) {
+          let newLastEvaluatedKey = response.data.lastEvaluatedKey;
+          lastEvaluatedKey = newLastEvaluatedKey;
+          console.log(newLastEvaluatedKey);
+        }
+        
+        console.log(newItems);
+        items = [...items, ...newItems]; 
+        setRecipes(items);
+
+        if(newItems.length < pageSize) hasMore = false;
+      } while(hasMore);
+      // console.log("Fetched recipes and got this response: " + response)
+      // console.log(response.data.data);
+      setRecipes(items); 
+    } catch (error) 
+    {
+      console.error('There was a problem with your Axios request:', error);
+    }
+  }
 
   return (
     <div>
       <header className="App-header">
         All Recipes
       </header>
-      <body>
+      <div>
         <h1>Recipes</h1>
         <ul>
           {recipes.map((recipe, index) => (
-            <li key={recipe.id}>
-              <Link to={`/Foodie/Recipes/${recipe.name}`}>{recipe.name}</Link>
+            <li key={index}>
+              <Link to={`/Foodie/Recipes/${encodeURIComponent(JSON.stringify(recipe))}`}>{recipe.name}</Link>
             </li>
           ))}
         </ul>
-      </body>
+      </div>
     </div>
   );
 }

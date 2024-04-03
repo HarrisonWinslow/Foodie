@@ -27,7 +27,7 @@ root.render(
         <Route path="/Foodie/AllRecipes" element={<AllRecipes />} />
         <Route path="/Foodie/Favorites" element={<Favorites />} />
         <Route path="/Foodie/Gross" element={<Gross />} />
-        <Route path="/Foodie/Recipes/:id" element={<RecipePage />} /> {/*Define route for RecipePage*/}
+        <Route path="/Foodie/Recipes/:data*" element={<RecipePage />} /> {/*Define route for RecipePage*/}
       </Routes>
     </Router>
   </React.StrictMode>

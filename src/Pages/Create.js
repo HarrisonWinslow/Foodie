@@ -1,7 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 const currentlyTesting = false; // change this when you want to deploy
+
 
 
 function Create() {
@@ -15,6 +17,27 @@ function Create() {
   const [recipeTags, setRecipeTags] = useState("");
   const [recipeComments, setRecipeComments] = useState("");
   const [recipeRating, setRecipeRating] = useState("Need To Try");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const successMessageRef = useRef(null);
+
+  useEffect(() => {
+    // Check if there's a success message in local storage
+    const storedMessage = localStorage.getItem('successMessage');
+    
+    if (storedMessage) {
+      // Show the success message
+      setShowSuccessMessage(true);
+      // Remove the success message from local storage
+      localStorage.removeItem('successMessage');
+
+      setTimeout(() => {
+        // successMessageRef.current.alert();
+      }, 1000);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+    }
+  }, []);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,11 +66,15 @@ function Create() {
         rating: recipeRating
       });
       console.log(response.data);
-      } catch (error) 
-      {
-        console.error('There was a problem with your Axios request:', error);
-      }
-    };
+      setShowSuccessMessage(true);
+      localStorage.setItem('successMessage', 'Recipe added successfully');
+      window.location.reload();
+    } catch (error) 
+    {
+      console.error('There was a problem with your Axios request:', error);
+      // showMessage("There was a problem trying to add your recipe... contact the dev. Or debug better, Q. C'mon, you got this. ;)");
+    }
+  };
 
   const handleNameChange = async (e) => {
     setRecipeName(e.target.value);
@@ -160,12 +187,26 @@ function Create() {
     }
   }
   
+  
+
   return (
     <div style={{ backgroundColor: "#588c9981"}}>
       <header className="App-header">
         Create
         <br/>
       </header>
+      {showSuccessMessage && (
+        <div ref={successMessageRef} className="alert alert-success alert-dismissible fade show" role="alert">
+          Recipe added successfully
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+            onClick={() => setShowSuccessMessage(false)} // Hide message on button click
+          ></button>
+        </div>
+      )}
       <div style={{margin: "10px", paddingRight: "20px"}}>
         {currentlyTesting && 
           <>
@@ -188,7 +229,7 @@ function Create() {
               <div className="form-group" style={{ width: "calc(100%)" }}>
                 <label>Cook Time:</label>
                 <input type="number" name="cookTime" className="form-control" style={{ width: "calc(100%-10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeCookTime} onChange={handleCookTimeChange} />
-                <small className="form-text text-muted">(minutes)</small>
+                <small className="form-text text-muted">(in minutes)</small>
                 <br />
               </div>
             </div>
@@ -238,13 +279,19 @@ function Create() {
           <div className="form-group"  style={{ width: "calc(100%)" }}>
             <label> Ingredients:</label>
             <textarea type="text" name="ingredients" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeIngredients} onChange={handleIngredientsChange} />
-            <small className="form-text text-muted">(of the form: ingredient1 - amount, ingredient2 - amount, ..., last ingredient - amount)</small>
+            <small className="form-text text-muted">of the form:</small> <br/>
+            <small className="form-text text-muted">ingredient1 - amount</small> <br/>
+            <small className="form-text text-muted">ingredient2 - amount</small> <br/>
+            <small className="form-text text-muted">last ingredient - amount</small> <br/>
             <br />
           </div>
           <div className="form-group"  style={{ width: "calc(100%)" }}>
             <label> Steps:</label>
             <textarea type="text" name="steps" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeSteps} onChange={handleStepsChange} />
-            <small className="form-text text-muted">(of the form: step1 ||| step2 ||| ... ||| last step)</small>
+            <small className="form-text text-muted">of the form:</small> <br/>
+            <small className="form-text text-muted">step1</small> <br/>
+            <small className="form-text text-muted">step2</small> <br/>
+            <small className="form-text text-muted">step3</small> <br/>
             <br />
           </div>
           <div className="form-group"  style={{ width: "calc(100%)" }}>

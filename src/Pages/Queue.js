@@ -4,14 +4,8 @@ import axios from 'axios';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 
 
-
-function AllRecipes({ searchTerm }) {
-
+function Queue() {
   const [recipes, setRecipes] = useState([]);
-
-  useEffect(() => {
-    console.log(searchTerm);
-  }, [searchTerm]);
 
   useEffect(() => {
     fetchRecipes();
@@ -25,8 +19,8 @@ function AllRecipes({ searchTerm }) {
     {
       let hasMore = true;
       do{
-        const response = await axios.get(stageURL + "/getAllRecipes", {
-          params: { 'lastEvaluatedKey': lastEvaluatedKey, 'pageSize': pageSize }
+        const response = await axios.get(stageURL + "/queryRecipes", {
+          params: { 'lastEvaluatedKey': lastEvaluatedKey, 'pageSize': pageSize, 'rating': 'Need To Try' }
         });
         console.log(response.data);
         let newItems = response.data.items;
@@ -51,10 +45,11 @@ function AllRecipes({ searchTerm }) {
     }
   }
 
+
   return (
     <div>
       <header className="App-header">
-        All Recipes
+        Recipes that we still need to try
       </header>
       <div>
         <h1>Recipes</h1>
@@ -70,4 +65,4 @@ function AllRecipes({ searchTerm }) {
   );
 }
 
-export default AllRecipes;
+export default Queue;

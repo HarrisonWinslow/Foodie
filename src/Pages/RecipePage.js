@@ -9,39 +9,64 @@ function RecipePage() {
   return (
     <div>
       <h2 className="App-header">{recipe.name}</h2>
-      <div style={{margin: "10px"}}>
+      <div className="container"  style={{ fontFamily: 'EB Garamond', fontSize:"30px" }}>
+        <br/>
         <div className="row">
-          <div className="col">
+          <div className="col" style={{ fontFamily: 'Satisfy', fontSize:"50px" }}>
             {recipe.description}
           </div>
         </div>
+        <br/>
         <div className="row">
           <div className="col">
             Cook time: {recipe.cookTime} minutes
           </div>
-          <div className="col">
-            Tags: {recipe.tags}
-          </div>
-          <div className="col">
+          <div className="col" style={{justifySelf:"right", justifyContent:"right", textAlign:"right"}}>
             Rating: {recipe.rating}
           </div>
         </div>
+        <br/>
         <div className="row">
           <div className="col">
-            {recipe.ingredients}
+            Tags: {recipe.tags.join(", ")}
           </div>
         </div>
+        <br/>
         <div className="row">
           <div className="col">
-            {recipe.steps}
+            <text style={{ textDecoration: 'underline', fontSize: '35px' }}>Ingredients</text>
+            <ul>
+              {recipe.ingredients.map((line, index) => (
+                <li key={index}>
+                  {line[0]} - {line[1]}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
+        <br/>
         <div className="row">
           <div className="col">
-            {recipe.comments}
+          <text style={{ textDecoration: 'underline', fontSize: '35px' }}>Directions</text>
+            <ol>
+              {recipe.steps.map((step, index) => (
+                <li key={index}>
+                  {step}
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
-        
+        <br/>
+        <div className="row">
+          <div className="col">
+          <text style={{ textDecoration: 'underline', fontSize: '35px' }}>Comments</text><br/>
+            <text style={{ fontFamily: 'Caveat'}} >{recipe.comments}</text>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
       </div>
     </div>
   );

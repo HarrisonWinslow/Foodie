@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
-const currentlyTesting = false; // change this when you want to deploy
+const currentlyTesting = false; // enables or disables the creation or deletion of dummy data
 
 
 
@@ -115,7 +115,7 @@ function Create() {
   const createDummyItems = async () => {
     for(let i = 0; i < 100; i++)
     {
-      const randomRatingNum = parseInt((Math.random()*5));
+      const randomRatingNum = parseInt((Math.random()*6));
       let randomRating = "Need To Try";
       switch(randomRatingNum){
         case 0:
@@ -128,6 +128,8 @@ function Create() {
           randomRating = "Good"; break;
         case 4:
           randomRating = "Favorite"; break;
+        case 5:
+          randomRating = "Favourite"; break;
         default:
           randomRating = "Random";
       }
@@ -255,6 +257,8 @@ function Create() {
                   <label htmlFor="rating4" style={{marginRight:"5px"}}>Good</label>
                   <input type="radio" id="rating5" name="rating" style={{margin:"5px"}} value="Favorite" checked={recipeRating === 'Favorite'} onChange={handleRatingChange} />
                   <label htmlFor="rating5" style={{marginRight:"5px"}}>Favorite</label>
+                  <input type="radio" id="rating6" name="rating" style={{margin:"5px"}} value="Favourite" checked={recipeRating === 'Favourite'} onChange={handleRatingChange} />
+                  <label htmlFor="rating6" style={{marginRight:"5px"}}>Favourite</label>
                 </div>
                 <br />
               </div>

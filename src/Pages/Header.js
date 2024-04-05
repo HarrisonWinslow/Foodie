@@ -37,7 +37,7 @@ function Header({ setSearchTerm }) {
                                 <NavLink className="nav-link text-light me-4" activeClassName="active" aria-current="page" exact to="/Foodie/AllRecipes">All Recipes</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link text-light me-4" activeClassName="active" aria-current="page" exact to="/Foodie/Favorites">Favorites</NavLink>
+                                <NavLink className="nav-link text-light me-4" activeClassName="active" aria-current="page" exact to="/Foodie/Favorites">Favourites</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link text-light me-4" activeClassName="active" aria-current="page" exact to="/Foodie/Gross">Gross</NavLink>

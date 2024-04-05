@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from './LoadingSpinner'; // Import your loading spinner component
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 
 
 function Queue() {
   const [recipes, setRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchRecipes();
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000)
+  }, [recipes]);
+
   const fetchRecipes = async () => {
     let lastEvaluatedKey = null;
     let items = [];
-    const pageSize = 30;
+    const pageSize = 10;
     try 
     {
       let hasMore = true;
@@ -51,16 +59,19 @@ function Queue() {
       <header className="App-header">
         Recipes that we still need to try
       </header>
-      <div>
-        <h1>Recipes</h1>
-        <ul>
-          {recipes.map((recipe, index) => (
-            <li key={index}>
-              <Link to={`/Foodie/Recipes/${encodeURIComponent(JSON.stringify(recipe))}`}>{recipe.name}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && 
+        <div>
+          <h1>Recipes</h1>
+          <ul>
+            {recipes.map((recipe, index) => (
+              <li key={index}>
+                <Link to={`/Foodie/Recipes/${encodeURIComponent(JSON.stringify(recipe))}`}>{recipe.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      }
     </div>
   );
 }

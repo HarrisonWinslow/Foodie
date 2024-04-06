@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import LoadingSpinner from './LoadingSpinner'; // Import your loading spinner component
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 const currentlyTesting = false; // enables or disables the creation or deletion of dummy data
 
@@ -18,6 +19,7 @@ function Create() {
   const [recipeComments, setRecipeComments] = useState("");
   const [recipeRating, setRecipeRating] = useState("Need To Try");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [loadingSubmission, setLoadingSubmission] = useState(false);
   const successMessageRef = useRef(null);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ function Create() {
       // Remove the success message from local storage
       localStorage.removeItem('successMessage');
 
+      setLoadingSubmission(false);
       setTimeout(() => {
         // successMessageRef.current.alert();
       }, 1000);
@@ -41,6 +44,8 @@ function Create() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoadingSubmission(true);
 
     const partialIngredientsList = recipeIngredients.split("\n");
     const ingredientsList = [];
@@ -197,6 +202,7 @@ function Create() {
         Create
         <br/>
       </header>
+      {loadingSubmission && <LoadingSpinner />}
       {showSuccessMessage && (
         <div ref={successMessageRef} className="alert alert-success alert-dismissible fade show" role="alert">
           Recipe added successfully
@@ -209,103 +215,105 @@ function Create() {
           ></button>
         </div>
       )}
-      <div style={{margin: "10px", paddingRight: "20px"}}>
-        {currentlyTesting && 
-          <>
-            <div className="dev-button"><button type="submit" onClick={createDummyItems} >Create Dummy Items</button></div>
-            <div className="dev-button"><button type="submit" onClick={deleteDummyItems} >Delete Dummy Items</button></div>
-          </>
-        }
-        <form style={{ width: "calc(100%)", margin:"10px" }}>
-          <div className="row">
-            <div className="col">
-              <div className="form-group" style={{ width: "calc(100%)" }}>
-                <label> Name: </label>
-                <input type="text" name="name" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }}  value={recipeName} onChange={handleNameChange} />
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group" style={{ width: "calc(100%)" }}>
-                <label>Cook Time:</label>
-                <input type="number" name="cookTime" className="form-control" style={{ width: "calc(100%-10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeCookTime} onChange={handleCookTimeChange} />
-                <small className="form-text text-muted">(in minutes)</small>
-                <br />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group"  style={{ width: "calc(100%)" }}>
-                <label>Tags:</label>
-                <input type="text" name="tags" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeTags} onChange={handleTagsChange} />
-                <small className="form-text text-muted">(of the form: tag1, tag2, tag3,..., last tag)</small>
-                <br />
-              </div>
-            </div>
-            <div className="col">
-              <div className="form-group"  style={{ width: "calc(100%)" }}>
-                <label> Rating: </label>
-                <div  style={{ width: "calc(100%)", margin: '10px' }}>
-                  <input type="radio" id="rating1" name="rating" style={{margin:"5px"}} value="Gross" checked={recipeRating === 'Gross'} onChange={handleRatingChange} />
-                  <label htmlFor="rating1" style={{marginRight:"5px"}}>Gross</label>
-                  <input type="radio" id="rating2" name="rating" style={{margin:"5px"}} value="Meh" checked={recipeRating === 'Meh'} onChange={handleRatingChange} />
-                  <label htmlFor="rating2" style={{marginRight:"5px"}}>Meh</label>
-                  <input type="radio" id="rating3" name="rating" style={{margin:"5px"}} value="Need To Try" checked={recipeRating === 'Need To Try'} onChange={handleRatingChange} />
-                  <label htmlFor="rating3" style={{marginRight:"5px"}}>Need To Try</label>
-                  <input type="radio" id="rating4" name="rating" style={{margin:"5px"}} value="Good" checked={recipeRating === 'Good'} onChange={handleRatingChange} />
-                  <label htmlFor="rating4" style={{marginRight:"5px"}}>Good</label>
-                  <input type="radio" id="rating5" name="rating" style={{margin:"5px"}} value="Favorite" checked={recipeRating === 'Favorite'} onChange={handleRatingChange} />
-                  <label htmlFor="rating5" style={{marginRight:"5px"}}>Favorite</label>
-                  <input type="radio" id="rating6" name="rating" style={{margin:"5px"}} value="Favourite" checked={recipeRating === 'Favourite'} onChange={handleRatingChange} />
-                  <label htmlFor="rating6" style={{marginRight:"5px"}}>Favourite</label>
+      {!loadingSubmission &&
+        <div style={{margin: "10px", paddingRight: "20px"}}>
+          {currentlyTesting && 
+            <>
+              <div className="dev-button"><button type="submit" onClick={createDummyItems} >Create Dummy Items</button></div>
+              <div className="dev-button"><button type="submit" onClick={deleteDummyItems} >Delete Dummy Items</button></div>
+            </>
+          }
+          <form style={{ width: "calc(100%)", margin:"10px" }}>
+            <div className="row">
+              <div className="col">
+                <div className="form-group" style={{ width: "calc(100%)" }}>
+                  <label> Name: </label>
+                  <input type="text" name="name" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }}  value={recipeName} onChange={handleNameChange} />
+                  <br />
                 </div>
-                <br />
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="form-group" style={{ width: "calc(100%)" }}>
-                <label> Description: </label>
-                <textarea type="text" name="description" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeDescription} onChange={handleDescriptionChange} />
-                <br />
+            <div className="row">
+              <div className="col">
+                <div className="form-group" style={{ width: "calc(100%)" }}>
+                  <label>Cook Time:</label>
+                  <input type="number" name="cookTime" className="form-control" style={{ width: "calc(100%-10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeCookTime} onChange={handleCookTimeChange} />
+                  <small className="form-text text-muted">(in minutes)</small>
+                  <br />
+                </div>
+              </div>
+              <div className="col">
+                <div className="form-group"  style={{ width: "calc(100%)" }}>
+                  <label>Tags:</label>
+                  <input type="text" name="tags" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeTags} onChange={handleTagsChange} />
+                  <small className="form-text text-muted">(of the form: tag1, tag2, tag3,..., last tag)</small>
+                  <br />
+                </div>
+              </div>
+              <div className="col">
+                <div className="form-group"  style={{ width: "calc(100%)" }}>
+                  <label> Rating: </label>
+                  <div  style={{ width: "calc(100%)", margin: '10px' }}>
+                    <input type="radio" id="rating1" name="rating" style={{margin:"5px"}} value="Gross" checked={recipeRating === 'Gross'} onChange={handleRatingChange} />
+                    <label htmlFor="rating1" style={{marginRight:"5px"}}>Gross</label>
+                    <input type="radio" id="rating2" name="rating" style={{margin:"5px"}} value="Meh" checked={recipeRating === 'Meh'} onChange={handleRatingChange} />
+                    <label htmlFor="rating2" style={{marginRight:"5px"}}>Meh</label>
+                    <input type="radio" id="rating3" name="rating" style={{margin:"5px"}} value="Need To Try" checked={recipeRating === 'Need To Try'} onChange={handleRatingChange} />
+                    <label htmlFor="rating3" style={{marginRight:"5px"}}>Need To Try</label>
+                    <input type="radio" id="rating4" name="rating" style={{margin:"5px"}} value="Good" checked={recipeRating === 'Good'} onChange={handleRatingChange} />
+                    <label htmlFor="rating4" style={{marginRight:"5px"}}>Good</label>
+                    <input type="radio" id="rating5" name="rating" style={{margin:"5px"}} value="Favorite" checked={recipeRating === 'Favorite'} onChange={handleRatingChange} />
+                    <label htmlFor="rating5" style={{marginRight:"5px"}}>Favorite</label>
+                    <input type="radio" id="rating6" name="rating" style={{margin:"5px"}} value="Favourite" checked={recipeRating === 'Favourite'} onChange={handleRatingChange} />
+                    <label htmlFor="rating6" style={{marginRight:"5px"}}>Favourite</label>
+                  </div>
+                  <br />
+                </div>
               </div>
             </div>
-          </div>
-          {/* <div className="form-group">
-            <label>
-              How many parts does this recipe have?
-              <input type="number" name="numParts" style={{ margin: "10px" }} value={numParts} onChange={handleNumPartsChange} />
-            </label>
-            <br />
-          </div> */}
-          <div className="form-group"  style={{ width: "calc(100%)" }}>
-            <label> Ingredients:</label>
-            <textarea type="text" name="ingredients" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeIngredients} onChange={handleIngredientsChange} />
-            <small className="form-text text-muted">of the form:</small> <br/>
-            <small className="form-text text-muted">ingredient1 - amount</small> <br/>
-            <small className="form-text text-muted">ingredient2 - amount</small> <br/>
-            <small className="form-text text-muted">last ingredient - amount</small> <br/>
-            <br />
-          </div>
-          <div className="form-group"  style={{ width: "calc(100%)" }}>
-            <label> Steps:</label>
-            <textarea type="text" name="steps" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeSteps} onChange={handleStepsChange} />
-            <small className="form-text text-muted">of the form:</small> <br/>
-            <small className="form-text text-muted">step1</small> <br/>
-            <small className="form-text text-muted">step2</small> <br/>
-            <small className="form-text text-muted">step3</small> <br/>
-            <br />
-          </div>
-          <div className="form-group"  style={{ width: "calc(100%)" }}>
-            <label>Comments:</label>
-            <textarea type="text" name="comments" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeComments} onChange={handleCommentsChange} />
-            <br />
-          </div>
-          <button type="submit" className="btn btn-custom" style={{ marginBottom: "100px" }} onClick={handleSubmit} >Submit</button>
-        </form>
-      </div>
+            <div className="row">
+              <div className="col">
+                <div className="form-group" style={{ width: "calc(100%)" }}>
+                  <label> Description: </label>
+                  <textarea type="text" name="description" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeDescription} onChange={handleDescriptionChange} />
+                  <br />
+                </div>
+              </div>
+            </div>
+            {/* <div className="form-group">
+              <label>
+                How many parts does this recipe have?
+                <input type="number" name="numParts" style={{ margin: "10px" }} value={numParts} onChange={handleNumPartsChange} />
+              </label>
+              <br />
+            </div> */}
+            <div className="form-group"  style={{ width: "calc(100%)" }}>
+              <label> Ingredients:</label>
+              <textarea type="text" name="ingredients" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeIngredients} onChange={handleIngredientsChange} />
+              <small className="form-text text-muted">of the form:</small> <br/>
+              <small className="form-text text-muted">ingredient1 - amount</small> <br/>
+              <small className="form-text text-muted">ingredient2 - amount</small> <br/>
+              <small className="form-text text-muted">last ingredient - amount</small> <br/>
+              <br />
+            </div>
+            <div className="form-group"  style={{ width: "calc(100%)" }}>
+              <label> Steps:</label>
+              <textarea type="text" name="steps" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeSteps} onChange={handleStepsChange} />
+              <small className="form-text text-muted">of the form:</small> <br/>
+              <small className="form-text text-muted">step1</small> <br/>
+              <small className="form-text text-muted">step2</small> <br/>
+              <small className="form-text text-muted">step3</small> <br/>
+              <br />
+            </div>
+            <div className="form-group"  style={{ width: "calc(100%)" }}>
+              <label>Comments:</label>
+              <textarea type="text" name="comments" className="form-control" style={{ width: "calc(100% - 10px)", height: "auto", padding: "10px", margin: "10px", resize: "vertical" }} value={recipeComments} onChange={handleCommentsChange} />
+              <br />
+            </div>
+            <button type="submit" className="btn btn-custom" style={{ marginBottom: "100px" }} onClick={handleSubmit} >Submit</button>
+          </form>
+        </div>
+      }
     </div>
   );
 }

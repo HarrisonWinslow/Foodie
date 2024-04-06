@@ -1,5 +1,6 @@
 // import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import backgroundImage from '../Images/defaultImage.jpg';
 // import Recipe from '../Models/RecipeModel.js';
 
 function RecipePage() {
@@ -7,9 +8,9 @@ function RecipePage() {
   const recipe = JSON.parse(decodeURIComponent(data));
 
   return (
-    <div>
-      <h2 className="App-header">{recipe.name}</h2>
-      <div className="container"  style={{ fontFamily: 'EB Garamond', fontSize:"30px" }}>
+    <div style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh'}}>
+      <h2 className="App-header" style={{marginBottom: "0px"}}>{recipe.name}</h2>
+      <div className="container"  style={{ fontFamily: 'EB Garamond', fontSize:"30px", backgroundColor:"#dfdfdf", padding:"20px" }}>
         <br/>
         <div className="row">
           <div className="col" style={{ fontFamily: 'Satisfy', fontSize:"50px" }}>
@@ -65,7 +66,18 @@ function RecipePage() {
           </div>
         </div>
         <br/>
+        <div className="row">
+          <div className="col">
+          <text style={{ textDecoration: 'underline', fontSize: '35px' }}>Images</text><br/>
+          </div>
+        </div>
         <br/>
+        <br/>
+        <div className="row" style={{justifyContent:"right"}}>
+          <div className="col" style={{justifyContent:"right", textAlign:"right"}}>
+              <button>Edit Recipe <i className="material-icons" style={{scale:"200%", margin:"5px"}}>history_edu</i> </button>
+          </div>
+        </div>
         <br/>
       </div>
     </div>

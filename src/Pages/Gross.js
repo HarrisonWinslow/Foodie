@@ -8,15 +8,18 @@ const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDep
 function Gross() {
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [areRecipes, setAreRecipes] = useState(true);
 
   useEffect(() => {
     fetchRecipes();
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000)
+    if(recipes.length > 0) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100)
+    }
   }, [recipes]);
 
   const fetchRecipes = async () => {
@@ -44,9 +47,13 @@ function Gross() {
 
         if(newItems.length < pageSize) hasMore = false;
       } while(hasMore);
-      // console.log("Fetched recipes and got this response: " + response)
-      // console.log(response.data.data);
+
+      if(items.length < 1) {
+        items.push("Empty");
+        setAreRecipes(false);
+      } 
       setRecipes(items); 
+
     } catch (error) 
     {
       console.error('There was a problem with your Axios request:', error);
@@ -60,7 +67,7 @@ function Gross() {
         Gross
       </header>
       {isLoading && <LoadingSpinner />}
-      {!isLoading && 
+      {!isLoading && areRecipes &&
         <div>
           <h1>Recipes</h1>
           <ul>
@@ -70,6 +77,11 @@ function Gross() {
               </li>
             ))}
           </ul>
+        </div>
+      }
+      {!isLoading && !areRecipes && 
+        <div>
+           <h1>There are no recipes in this category!</h1>
         </div>
       }
     </div>

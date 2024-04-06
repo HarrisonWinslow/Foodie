@@ -8,15 +8,18 @@ const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDep
 function Queue() {
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [areRecipes, setAreRecipes] = useState(true);
 
   useEffect(() => {
     fetchRecipes();
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000)
+    if(recipes.length > 0) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100)
+    }
   }, [recipes]);
 
   const fetchRecipes = async () => {
@@ -70,6 +73,11 @@ function Queue() {
               </li>
             ))}
           </ul>
+        </div>
+      }
+      {!isLoading && !areRecipes && 
+        <div>
+           <h1>There are no recipes in this category!</h1>
         </div>
       }
     </div>

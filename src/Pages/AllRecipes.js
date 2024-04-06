@@ -10,6 +10,7 @@ function AllRecipes({ searchTerm }) {
 
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [areRecipes, setAreRecipes] = useState(true);
 
   useEffect(() => {
     console.log(searchTerm);
@@ -20,9 +21,11 @@ function AllRecipes({ searchTerm }) {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000)
+    if(recipes.length > 0) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000)
+    }
   }, [recipes]);
 
   const fetchRecipes = async () => {
@@ -75,6 +78,11 @@ function AllRecipes({ searchTerm }) {
               </li>
             ))}
           </ul>
+        </div>
+      }
+      {!isLoading && !areRecipes && 
+        <div>
+           <h1>There are no recipes in this category!</h1>
         </div>
       }
     </div>

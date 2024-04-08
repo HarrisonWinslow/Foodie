@@ -1,3 +1,21 @@
+
+.recipe-card {
+  font-family: 'EB Garamond';
+  width: 350px;
+  text-decoration:"none";
+  margin: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: box-shadow 0.3s ease;
+}
+
+.recipe-card:hover {
+  background-color: rgb(86, 83, 83)smoke !important;
+  transform: scale(0.95);
+  box-shadow: 5px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .loading-spinner-container {
   display: flex;
   justify-content: center;

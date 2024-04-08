@@ -8,9 +8,9 @@ function RecipePage() {
   const recipe = JSON.parse(decodeURIComponent(data));
 
   return (
-    <div style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh'}}>
+    <div style={{fontFamily: 'EB Garamond', backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh'}}>
       <h2 className="App-header" style={{marginBottom: "0px"}}>{recipe.name}</h2>
-      <div className="container"  style={{ fontFamily: 'EB Garamond', fontSize:"30px", backgroundColor:"#dfdfdf", padding:"20px" }}>
+      <div className="container"  style={{fontSize:"30px", backgroundColor:"#f5f5f5", padding:"20px" }}>
         <br/>
         <div className="row">
           <div className="col" style={{ fontFamily: 'Satisfy', fontSize:"50px" }}>

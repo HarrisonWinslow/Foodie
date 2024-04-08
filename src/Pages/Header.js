@@ -8,8 +8,9 @@ function Header({ setSearchTerm }) {
     const [searchInput, setSearchInput] = useState('');
 
     const handleSearchInputChange = (e) => {
-        setSearchInput(e.target.value);
-        setSearchTerm(searchInput);
+        const searchTerm = e.target.value;
+        setSearchInput(searchTerm);
+        setSearchTerm(searchTerm);
     };
 
     const handleSearchSubmit = (e) => {
@@ -18,11 +19,11 @@ function Header({ setSearchTerm }) {
     };
 
     return (
-        <div>
+        <div style={{fontFamily: 'EB Garamond'}}>
             <nav className="navbar navbar-expand-lg bg-dark">
                 <div className="container-fluid">
                     <a className="navbar-brand d-flex align-items-center me-0" href="/Foodie/Home" style={{ marginLeft: '5px', color: 'white' }}>
-                        <img src={logoImage} alt="Logo" className="img-fluid" style={{ maxHeight: '100px' }}/>   
+                        <img src={logoImage} alt="FoodieLogo" className="img-fluid" style={{ maxHeight: '100px' }}/>   
                         <span className="ms-3" style={{ fontSize: '250%', verticalAlign: 'center'}}>Foodie</span>
                     </a>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">

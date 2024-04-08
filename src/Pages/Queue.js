@@ -49,6 +49,10 @@ function Queue() {
       } while(hasMore);
       // console.log("Fetched recipes and got this response: " + response)
       // console.log(response.data.data);
+      if(items.length < 1) {
+        items.push("Empty");
+        setAreRecipes(false);
+      } 
       setRecipes(items); 
     } catch (error) 
     {
@@ -58,7 +62,7 @@ function Queue() {
 
 
   return (
-    <div>
+    <div style={{fontFamily: 'EB Garamond'}}>
       <header className="App-header">
         Recipes that we still need to try
       </header>
@@ -76,7 +80,7 @@ function Queue() {
         </div>
       }
       {!isLoading && !areRecipes && 
-        <div>
+        <div> style={{justifyContent:"center", height: "60vh", alignItems:"center", display:"flex"}}
            <h1>There are no recipes in this category!</h1>
         </div>
       }

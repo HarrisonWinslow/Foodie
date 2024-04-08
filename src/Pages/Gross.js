@@ -62,7 +62,7 @@ function Gross() {
 
 
   return (
-    <div>
+    <div style={{fontFamily: 'EB Garamond'}}>
       <header className="App-header">
         Gross
       </header>
@@ -80,7 +80,7 @@ function Gross() {
         </div>
       }
       {!isLoading && !areRecipes && 
-        <div>
+        <div style={{justifyContent:"center", height: "60vh", alignItems:"center", display:"flex"}}>
            <h1>There are no recipes in this category!</h1>
         </div>
       }

@@ -197,7 +197,7 @@ function Create() {
   
 
   return (
-    <div style={{ backgroundColor: "#588c9981"}}>
+    <div style={{ backgroundColor: "#588c9981", fontFamily: "EB Garamond"}}>
       <header className="App-header">
         Create
         <br/>

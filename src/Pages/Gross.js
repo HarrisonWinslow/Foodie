@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner'; // Import your loading spinner component
+import RecipeCardList from '../Models/RecipeCardList';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 
 
@@ -62,21 +63,17 @@ function Gross() {
 
 
   return (
-    <div style={{fontFamily: 'EB Garamond'}}>
+    <div className="page-default">
       <header className="App-header">
         Gross
       </header>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && 
+        <div style={{textAlign: "center", fontSize: "20px"}}><br/>Fetching recipes
+          <LoadingSpinner />
+        </div>}
       {!isLoading && areRecipes &&
         <div>
-          <h1>Recipes</h1>
-          <ul>
-            {recipes.map((recipe, index) => (
-              <li key={index}>
-                <Link to={`/Foodie/Recipes/${encodeURIComponent(JSON.stringify(recipe))}`}>{recipe.name}</Link>
-              </li>
-            ))}
-          </ul>
+          <RecipeCardList recipes={recipes} />
         </div>
       }
       {!isLoading && !areRecipes && 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner'; // Import your loading spinner component
-import RecipeCard from '../Models/RecipeCard';
+import RecipeCardList from '../Models/RecipeCardList';
 const stageURL = "https://95tydbpfth.execute-api.us-west-2.amazonaws.com/betaDeployment";
 
 
@@ -35,7 +34,7 @@ function AllRecipes({ searchTerm }) {
     if(recipes.length > 0) {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000)
+      }, 100)
     }
   }, [recipes]);
 
@@ -79,7 +78,7 @@ function AllRecipes({ searchTerm }) {
   }
 
   return (
-    <div style={{fontFamily: 'EB Garamond', backgroundColor: "#f5f5f5", minHeight:"100vh"}}>
+    <div className="page-default">
       <header className="App-header">
         All Recipes
       </header>
@@ -89,16 +88,7 @@ function AllRecipes({ searchTerm }) {
         </div>}
       {!isLoading && 
         <div>
-          <h1>Recipes</h1>
-          <div className="row">
-            {recipes.map((recipe, index) => (
-              <div className="col-lg-3 col-md-4 col-sm-6" key={index}>
-                <Link to={`/Foodie/Recipes/${encodeURIComponent(JSON.stringify(recipe))}`} style={{textDecoration: "none"}}>
-                  <RecipeCard recipe={recipe}></RecipeCard>
-                </Link>
-              </div>
-            ))}
-          </div>
+          <RecipeCardList recipes={recipes} />
         </div>
       }
       {!isLoading && !areRecipes && 

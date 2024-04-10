@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom'
 import logoImage from '../Images/defaultImage.jpg';
 
-function Header({ setSearchTerm }) {
+function Header({ setSearchTerm, recipes, setRecipes }) {
 
     const [searchInput, setSearchInput] = useState('');
 

@@ -1,4 +1,10 @@
 
+.page-default {
+  font-family: 'EB Garamond';
+  background-color: #f5f5f5;
+  min-height:100vh;
+}
+
 .recipe-card {
   font-family: 'EB Garamond';
   width: 350px;
